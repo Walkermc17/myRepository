@@ -23,6 +23,10 @@
       <FILE id="dZICpS" name="FBCF.hpp" compile="0" resource="0" file="Source/FBCF.hpp"/>
       <FILE id="usJjC0" name="Schroeder.cpp" compile="1" resource="0" file="Source/Schroeder.cpp"/>
       <FILE id="yBr3g4" name="Schroeder.hpp" compile="0" resource="0" file="Source/Schroeder.hpp"/>
+      <FILE id="yyIABs" name="LowPassFilter.cpp" compile="1" resource="0"
+            file="Source/LowPassFilter.cpp"/>
+      <FILE id="xajhTh" name="LowPassFilter.hpp" compile="0" resource="0"
+            file="Source/LowPassFilter.hpp"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

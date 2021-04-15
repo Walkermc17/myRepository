@@ -94,7 +94,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     lpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     lpfSlider.setBounds(250, 175, 100, 100);
     lpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
-    lpfSlider.setRange(1000.0f, 20000.0f, 1.0f);
+    lpfSlider.setRange(100.0f, 20000.0f, 1.0f);
     lpfSlider.setValue(10000.0f);
     addAndMakeVisible(lpfSlider);
     
@@ -141,5 +141,9 @@ void AlgoReverbAudioProcessorEditor::sliderValueChanged(Slider *slider){
     
     if (slider == & diffusionSlider){
         processor.diffusionValue = diffusionSlider.getValue();
+    }
+    
+    if (slider == & lpfSlider){
+        processor.freqValue = lpfSlider.getValue();
     }
 }
