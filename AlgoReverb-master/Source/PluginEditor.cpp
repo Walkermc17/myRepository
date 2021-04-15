@@ -22,7 +22,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     //REVERB TIME SLIDER
     reverbTimeSlider.addListener(this);
     reverbTimeSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    reverbTimeSlider.setBounds(50, 30, 100, 100);
+    reverbTimeSlider.setBounds(2.5, 30, 100, 100);
     reverbTimeSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     reverbTimeSlider.setRange(0.4f, 0.7f, 0.01f);
     reverbTimeSlider.setValue(0.5f);
@@ -36,7 +36,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     //MODULATION SLIDER
     modulationSlider.addListener(this);
     modulationSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    modulationSlider.setBounds(150, 30, 100, 100);
+    modulationSlider.setBounds(102.5, 30, 100, 100);
     modulationSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     modulationSlider.setRange(1.0f, 10.f, 0.01f);
     modulationSlider.setValue(1.0f);
@@ -47,10 +47,24 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     modulationLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(modulationLabel);
     
+    //MODSPEED SLIDER
+    modSpeedSlider.addListener(this);
+    modSpeedSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    modSpeedSlider.setBounds(202.5, 30, 100, 100);
+    modSpeedSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
+    modSpeedSlider.setRange(0.0f, 1.0f, 0.01f);
+    modSpeedSlider.setValue(0.5f);
+    addAndMakeVisible(modSpeedSlider);
+    
+    modSpeedLabel.setText("Mod Speed", dontSendNotification);
+    modSpeedLabel.attachToComponent(&modSpeedSlider, false);
+    modSpeedLabel.setJustificationType(Justification::centred);
+    addAndMakeVisible(modSpeedLabel);
+    
     //WETDRY SLIDER
     wetDrySlider.addListener(this);
     wetDrySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    wetDrySlider.setBounds(250, 30, 100, 100);
+    wetDrySlider.setBounds(302.5, 30, 100, 100);
     wetDrySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     wetDrySlider.setRange(0.0f, 1.0f, 0.01f);
     wetDrySlider.setValue(0.5f);
@@ -64,7 +78,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     //PREDELAY SLIDER
     predelaySlider.addListener(this);
     predelaySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    predelaySlider.setBounds(50, 175, 100, 100);
+    predelaySlider.setBounds(2.5, 175, 100, 100);
     predelaySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     predelaySlider.setRange(0.0f, 200.0f, 0.1f);
     predelaySlider.setValue(0.0f);
@@ -78,7 +92,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     //DIFFUSION SLIDER
     diffusionSlider.addListener(this);
     diffusionSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    diffusionSlider.setBounds(150, 175, 100, 100);
+    diffusionSlider.setBounds(102.5, 175, 100, 100);
     diffusionSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     diffusionSlider.setRange(0.2f, 0.8f, 0.01f);
     diffusionSlider.setValue(0.5f);
@@ -92,7 +106,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     //LPF SLIDER
     lpfSlider.addListener(this);
     lpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    lpfSlider.setBounds(250, 175, 100, 100);
+    lpfSlider.setBounds(202.5, 175, 100, 100);
     lpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     lpfSlider.setRange(100.0f, 20000.0f, 1.0f);
     lpfSlider.setValue(10000.0f);
@@ -102,6 +116,20 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     lpfLabel.attachToComponent(&lpfSlider, false);
     lpfLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(lpfLabel);
+    
+    //HPF SLIDER
+    hpfSlider.addListener(this);
+    hpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    hpfSlider.setBounds(302.5, 175, 100, 100);
+    hpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
+    hpfSlider.setRange(100.0f, 20000.0f, 1.0f);
+    hpfSlider.setValue(1000.0f);
+    addAndMakeVisible(hpfSlider);
+    
+    hpfLabel.setText("HPF", dontSendNotification);
+    hpfLabel.attachToComponent(&hpfSlider, false);
+    hpfLabel.setJustificationType(Justification::centred);
+    addAndMakeVisible(hpfLabel);
     
 }
 
@@ -144,6 +172,10 @@ void AlgoReverbAudioProcessorEditor::sliderValueChanged(Slider *slider){
     }
     
     if (slider == & lpfSlider){
-        processor.freqValue = lpfSlider.getValue();
+        processor.freqValueLow = lpfSlider.getValue();
+    }
+    
+    if (slider == & hpfSlider){
+        processor.freqValueHigh = hpfSlider.getValue();
     }
 }

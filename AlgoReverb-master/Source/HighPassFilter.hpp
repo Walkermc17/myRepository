@@ -1,22 +1,22 @@
 //
-//  LowPassFilter.hpp
+//  HighPassFilter.hpp
 //
 //  Created by Eric Tarr on 2/6/20.
 //  Copyright © 2020 Eric Tarr. All rights reserved.
 //
 
-#ifndef LowPassFilter_hpp
-#define LowPassFilter_hpp
+#ifndef HighPassFilter_hpp
+#define HighPassFilter_hpp
 
-class LowPassFilter {
+class HighPassFilter {
     
 public:
     
     // Constructor function (special function - no return type, name = Class name)
-    LowPassFilter();
+    HighPassFilter();
     
     // Destructor
-    ~LowPassFilter();
+    ~HighPassFilter();
     
     float processSample(float x,int channel);
 
@@ -45,4 +45,4 @@ private:
 
 
 
-#endif /* LowPassFilter_hpp */
+#endif /* HighPassFilter_hpp */

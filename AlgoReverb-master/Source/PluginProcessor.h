@@ -16,6 +16,7 @@
 #include "APF.hpp"
 #include "Schroeder.hpp"
 #include "LowPassFilter.hpp"
+#include "HighPassFilter.hpp"
 
 //==============================================================================
 /**
@@ -65,7 +66,8 @@ public:
     float timeValue = 0.5f;
     float modValue = 1.f;
     float diffusionValue = 0.5f;
-    float freqValue = 10000.f;
+    float freqValueLow = 10000.f;
+    float freqValueHigh = 1000.f;
     
 private:
     
@@ -74,9 +76,10 @@ private:
     APF apf1{240.f, 0.8321f};
     APF apf2{82.f , 0.9640f};
     
-    ///Schroeder schroeder;
-    
     LowPassFilter lowPassFilter;
+    HighPassFilter highPassFilter;
+    
+    ///Schroeder schroeder;
     
     float Fs = 48000.0f;
     //==============================================================================

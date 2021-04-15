@@ -105,6 +105,7 @@ void AlgoReverbAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     ///schroeder.setFs(sampleRate);
     
     lowPassFilter.setFs(sampleRate);
+    highPassFilter.setFs(sampleRate);
     
     Fs = sampleRate;
 }
@@ -166,7 +167,8 @@ void AlgoReverbAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     ///schroeder.setDiffusionGain(diffusionValue);
     ///schroeder.setDepth(modValue);
     
-    lowPassFilter.setFrequency(freqValue);
+    lowPassFilter.setFrequency(freqValueLow);
+    highPassFilter.setFrequency(freqValueHigh);
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         for (int n = 0 ; n < buffer.getNumSamples(); ++n){
@@ -179,6 +181,7 @@ void AlgoReverbAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
         ///verb = schroeder.processSample(x, channel);
             
         verb = lowPassFilter.processSample(verb, channel);
+        verb = highPassFilter.processSample(verb, channel);
             
         float y = (1.f - wet) * x + wet * verb;
             

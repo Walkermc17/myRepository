@@ -27,9 +27,9 @@ float Schroeder::processSample(float x, int channel){
     
     float inAPF1 = outFBCF1 + outFBCF2 + outFBCF3 + outFBCF4;
     
-    float outAPF1 = apf1.processSample(outAPF1, channel);
+    float outAPF1 = apf1.processSample(inAPF1, channel);
     
-    y = apf2.processSample(inAPF1, channel);
+    y = apf2.processSample(outAPF1, channel);
         
     return y;
 }

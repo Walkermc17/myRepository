@@ -27,6 +27,10 @@
             file="Source/LowPassFilter.cpp"/>
       <FILE id="xajhTh" name="LowPassFilter.hpp" compile="0" resource="0"
             file="Source/LowPassFilter.hpp"/>
+      <FILE id="edkrHy" name="HighPassFilter.hpp" compile="0" resource="0"
+            file="Source/HighPassFilter.hpp"/>
+      <FILE id="YR64Jq" name="HighPassFilter.cpp" compile="1" resource="0"
+            file="Source/HighPassFilter.cpp"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
