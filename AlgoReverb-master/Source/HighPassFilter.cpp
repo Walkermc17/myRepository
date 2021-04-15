@@ -52,7 +52,7 @@ void HighPassFilter::updateCoefficients(){
     float B0 = (1.f + cw0) / 2.f;
     b0 = B0/a0;
     
-    float B1 = (-1.f) + cw0;
+    float B1 = -(1.f + cw0);
     b1 = B1/a0;
     
     b2 = b0;
@@ -60,6 +60,6 @@ void HighPassFilter::updateCoefficients(){
     float A1 = -2.f * cw0;
     a1 = A1/a0;
     
-    float A2 = 1 - alpha;
+    float A2 = 1.f - alpha;
     a2 = A2/a0;
 }
