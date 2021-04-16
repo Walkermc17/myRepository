@@ -20,13 +20,14 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     setSize (400, 300);
     
     //REVERB TIME SLIDER
-    reverbTimeSlider.addListener(this);
+    //reverbTimeSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     reverbTimeSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     reverbTimeSlider.setBounds(2.5, 30, 100, 100);
     reverbTimeSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     reverbTimeSlider.setRange(0.4f, 0.7f, 0.01f);
-    reverbTimeSlider.setValue(0.5f);
+    //reverbTimeSlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(reverbTimeSlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "timeValue", reverbTimeSlider));
     
     reverbTimeLabel.setText("Time", dontSendNotification);
     reverbTimeLabel.attachToComponent(&reverbTimeSlider, false);
@@ -34,55 +35,60 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     addAndMakeVisible(reverbTimeLabel);
     
     //MODULATION SLIDER
-    modulationSlider.addListener(this);
+    //modulationSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     modulationSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     modulationSlider.setBounds(102.5, 30, 100, 100);
     modulationSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     modulationSlider.setRange(1.0f, 10.f, 0.01f);
-    modulationSlider.setValue(1.0f);
+    //modulationSlider.setValue(1.0f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(modulationSlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "modValue", modulationSlider));
     
-    modulationLabel.setText("Mod", dontSendNotification);
+    modulationLabel.setText("Depth", dontSendNotification);
     modulationLabel.attachToComponent(&modulationSlider, false);
     modulationLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(modulationLabel);
     
     //MODSPEED SLIDER
-    modSpeedSlider.addListener(this);
+    //modSpeedSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     modSpeedSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     modSpeedSlider.setBounds(202.5, 30, 100, 100);
     modSpeedSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     modSpeedSlider.setRange(0.0f, 1.0f, 0.01f);
-    modSpeedSlider.setValue(0.5f);
+    //modSpeedSlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(modSpeedSlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "modSpeed", modSpeedSlider));
     
-    modSpeedLabel.setText("Mod Speed", dontSendNotification);
+    modSpeedLabel.setText("Rate", dontSendNotification);
     modSpeedLabel.attachToComponent(&modSpeedSlider, false);
     modSpeedLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(modSpeedLabel);
     
     //WETDRY SLIDER
-    wetDrySlider.addListener(this);
+    //wetDrySlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     wetDrySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     wetDrySlider.setBounds(302.5, 30, 100, 100);
     wetDrySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     wetDrySlider.setRange(0.0f, 1.0f, 0.01f);
-    wetDrySlider.setValue(0.5f);
+    //wetDrySlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(wetDrySlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "wet", wetDrySlider));
     
-    wetDryLabel.setText("Wet/Dry", dontSendNotification);
+    wetDryLabel.setText("Dry/Wet", dontSendNotification);
     wetDryLabel.attachToComponent(&wetDrySlider, false);
     wetDryLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(wetDryLabel);
     
     //PREDELAY SLIDER
-    predelaySlider.addListener(this);
+    //predelaySlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     predelaySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     predelaySlider.setBounds(2.5, 175, 100, 100);
     predelaySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     predelaySlider.setRange(0.0f, 200.0f, 0.1f);
-    predelaySlider.setValue(0.0f);
+    //predelaySlider.setValue(0.0f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(predelaySlider);
+    //sliderAttachments = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.state, "predelayMS", predelaySlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "predelayMS", predelaySlider));
     
     predelayLabel.setText("Predelay", dontSendNotification);
     predelayLabel.attachToComponent(&predelaySlider, false);
@@ -90,13 +96,14 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     addAndMakeVisible(predelayLabel);
     
     //DIFFUSION SLIDER
-    diffusionSlider.addListener(this);
+    //diffusionSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     diffusionSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     diffusionSlider.setBounds(102.5, 175, 100, 100);
     diffusionSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     diffusionSlider.setRange(0.2f, 0.8f, 0.01f);
-    diffusionSlider.setValue(0.5f);
+    //diffusionSlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(diffusionSlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "diffusionValue", predelaySlider));
     
     diffusionLabel.setText("Diffusion", dontSendNotification);
     diffusionLabel.attachToComponent(&diffusionSlider, false);
@@ -104,13 +111,14 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     addAndMakeVisible(diffusionLabel);
     
     //LPF SLIDER
-    lpfSlider.addListener(this);
+    //lpfSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     lpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     lpfSlider.setBounds(202.5, 175, 100, 100);
     lpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     lpfSlider.setRange(100.0f, 20000.0f, 1.0f);
-    lpfSlider.setValue(10000.0f);
+    //lpfSlider.setValue(10000.0f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(lpfSlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueLow", lpfSlider));
     
     lpfLabel.setText("LPF", dontSendNotification);
     lpfLabel.attachToComponent(&lpfSlider, false);
@@ -118,13 +126,14 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     addAndMakeVisible(lpfLabel);
     
     //HPF SLIDER
-    hpfSlider.addListener(this);
+    //hpfSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
     hpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     hpfSlider.setBounds(302.5, 175, 100, 100);
     hpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     hpfSlider.setRange(100.0f, 20000.0f, 1.0f);
-    hpfSlider.setValue(1000.0f);
+    //hpfSlider.setValue(1000.0f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(hpfSlider);
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueHigh", hpfSlider));
     
     hpfLabel.setText("HPF", dontSendNotification);
     hpfLabel.attachToComponent(&hpfSlider, false);
@@ -150,7 +159,7 @@ void AlgoReverbAudioProcessorEditor::resized()
     // subcomponents in your editor..
 }
 
-void AlgoReverbAudioProcessorEditor::sliderValueChanged(Slider *slider){
+/*void AlgoReverbAudioProcessorEditor::sliderValueChanged(Slider *slider){
     if (slider == & predelaySlider){
         processor.predelayMS = predelaySlider.getValue();
     }
@@ -179,3 +188,5 @@ void AlgoReverbAudioProcessorEditor::sliderValueChanged(Slider *slider){
         processor.freqValueHigh = hpfSlider.getValue();
     }
 }
+UNNECESSARY WITH VALUE TREE STATE*/
+

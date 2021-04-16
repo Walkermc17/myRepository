@@ -6,7 +6,7 @@
 //
 
 #include "APF.hpp"
-
+#include <math.h>
 
 APF::APF(){
 }
@@ -38,6 +38,13 @@ void APF::setFs(float Fs){
 
 void APF::setFeedbackGain(float feedbackGain){
     this->feedbackGain = feedbackGain;
+}
+
+void APF::setSpeed(float speed){
+    if (speed >= 0.1f && speed <= 10.0f){
+        this->speed = speed;
+        angleChange = speed * (1.f/Fs) * 2 * M_PI;
+    }
 }
 
 void APF::setDepth(float depth){

@@ -61,13 +61,19 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    float predelayMS = 0.f;
-    float wet = 0.5f;
+    //float predelayMS = 0.f; UNNECESSARY WITH VALUE TREE STATE
+    //float wet = 0.5f;
     float timeValue = 0.5f;
+    /*float modSpeed = 1.f;
     float modValue = 1.f;
     float diffusionValue = 0.5f;
     float freqValueLow = 10000.f;
-    float freqValueHigh = 1000.f;
+    float freqValueHigh = 1000.f;*/
+    
+    //==============================================================================
+    
+    AudioProcessorValueTreeState state;
+    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
 private:
     

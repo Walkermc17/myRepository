@@ -32,6 +32,8 @@ public:
     
     void setFeedbackGain(float feedbackGain );
     
+    void setSpeed(float speed);
+    
     void setDepth(float depth);
     
 private:
@@ -43,6 +45,10 @@ private:
     float feedbackGain = 0.5f;
     
     float fb1[2] = {0.f};
+    
+    float speed = 1.0f;
+    
+    float angleChange = speed * (1.f/Fs) * 2.f * M_PI;
     
     float depth = 10.0f; // percentage of intensity, control amp of LFO
     

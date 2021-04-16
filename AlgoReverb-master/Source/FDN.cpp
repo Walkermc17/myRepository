@@ -6,7 +6,7 @@
 //
 
 #include "FDN.hpp"
-
+#include <math.h>
 
 FDN::FDN(){
 }
@@ -43,6 +43,13 @@ void FDN::setFs(float Fs){
     this->Fs = Fs;
     fractionalDelay1.setFs(Fs);
     fractionalDelay2.setFs(Fs);
+}
+
+void FDN::setSpeed(float speed){
+    if (speed >= 0.1f && speed <= 10.0f){
+        this->speed = speed;
+        angleChange = speed * (1.f/Fs) * 2 * M_PI;
+    }
 }
 
 void FDN::setDepth(float depth){

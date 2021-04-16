@@ -21,13 +21,29 @@ AlgoReverbAudioProcessor::AlgoReverbAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), state(*this, nullptr, "ReverbParams", createParameterLayout())
 #endif
 {
 }
 
 AlgoReverbAudioProcessor::~AlgoReverbAudioProcessor()
 {
+}
+
+AudioProcessorValueTreeState::ParameterLayout AlgoReverbAudioProcessor::createParameterLayout(){
+    std::vector<std::unique_ptr<RangedAudioParameter>> params;
+    
+    //predelayMS is the name of the parameter in the markdown file
+    params.push_back(std::make_unique<AudioParameterFloat> ("timeValue","Time", 0.4f, 0.7f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("modValue","Depth", 1.0f, 10.f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("modSpeed","Rate", 0.1f, 1.0f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("wet","Dry/Wet", 0.0f, 1.0f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("predelayMS","Pre-delay", 0.0f, 200.0f, 0.1f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("diffusionValue","Diffusion", 0.2f, 0.8f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("freqValueLow","LPF", 100.0f, 20000.0f, 1.0f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("freqValueHigh","HPF", 100.0f, 20000.0f, 1.0f));
+    
+    return {params.begin() , params.end() };
 }
 
 //==============================================================================
@@ -149,17 +165,24 @@ void AlgoReverbAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
+    float predelayMS = *state.getRawParameterValue("predelayMS"); //VALUE TREE STATE. MAY NEED TO SET UP CLASS TO FEED PREDELAY IN SAMPLES
     predelay.setDepth(0.0f);
     predelay.setSpeed(0.0f);
-    
     float predelaySec = predelayMS * 0.001f;
     float predelaySamples = predelaySec * Fs;
     predelay.setDelaySamples(predelaySamples);
     
+    float timeValue = *state.getRawParameterValue("timeValue");
     fdn.setTime(timeValue);
+    float modValue = *state.getRawParameterValue("modValue");
     fdn.setDepth(modValue);
+    float modSpeed = *state.getRawParameterValue("modSpeed");
+    fdn.setSpeed(modSpeed);
     apf1.setDepth(modValue);
+    apf1.setSpeed(modSpeed);
     apf2.setDepth(modValue);
+    apf2.setSpeed(modSpeed);
+    float diffusionValue = *state.getRawParameterValue("diffusionValue");
     apf1.setFeedbackGain(diffusionValue);
     apf2.setFeedbackGain(diffusionValue);
     
@@ -167,8 +190,11 @@ void AlgoReverbAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     ///schroeder.setDiffusionGain(diffusionValue);
     ///schroeder.setDepth(modValue);
     
+    float freqValueLow = *state.getRawParameterValue("freqValueLow");
     lowPassFilter.setFrequency(freqValueLow);
+    float freqValueHigh = *state.getRawParameterValue("freqValueHigh");
     highPassFilter.setFrequency(freqValueHigh);
+    float wet = *state.getRawParameterValue("wet");
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         for (int n = 0 ; n < buffer.getNumSamples(); ++n){
@@ -207,12 +233,23 @@ void AlgoReverbAudioProcessor::getStateInformation (MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    
+    auto currentState = state.copyState();
+    std::unique_ptr<XmlElement> xml (currentState.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void AlgoReverbAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    
+    std::unique_ptr<XmlElement> xml (getXmlFromBinary(data, sizeInBytes));
+    //The first state is the name of the value tree state that we assigned
+    if (xml && xml->hasTagName(state.state.getType())){
+        state.replaceState(ValueTree::fromXml(*xml));
+    }
+    
 }
 
 //==============================================================================
