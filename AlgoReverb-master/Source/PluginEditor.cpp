@@ -15,130 +15,167 @@
 AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
+
+    //==============================================================================
+    // SET BACKGROUND
+    //==============================================================================
+    auto backgroundImage = ImageCache::getFromMemory(BinaryData::MainBackground_png, BinaryData::MainBackground_pngSize);
+    
+    if (! backgroundImage.isNull()) {
+        backgroundImageComponent.setImage(backgroundImage,RectanglePlacement::stretchToFit);
+    }
+    else {
+        jassert (! backgroundImage.isNull());
+    }
+    
+    addAndMakeVisible(backgroundImageComponent);
+    
+    //==============================================================================
+    // SET DEFAULT FONT
+    //==============================================================================
+    LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName("Avenir Next");
+    setFontParameters(&font);
+    
+    //==============================================================================
+    // SLIDERS
+    //==============================================================================
     
     //REVERB TIME SLIDER
-    //reverbTimeSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
-    reverbTimeSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    reverbTimeSlider.setBounds(2.5, 30, 100, 100);
-    reverbTimeSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     reverbTimeSlider.setRange(0.4f, 0.7f, 0.01f);
-    //reverbTimeSlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
+    reverbTimeSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    reverbTimeSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(reverbTimeSlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "timeValue", reverbTimeSlider));
+    
+    reverbTimeSlider.setLookAndFeel(&smallKnob);
     
     reverbTimeLabel.setText("Time", dontSendNotification);
     reverbTimeLabel.attachToComponent(&reverbTimeSlider, false);
+    reverbTimeLabel.setFont(font);
+    reverbTimeLabel.setColour(Label::textColourId, Colours::silver);
     reverbTimeLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(reverbTimeLabel);
     
     //MODULATION SLIDER
-    //modulationSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
-    modulationSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    modulationSlider.setBounds(102.5, 30, 100, 100);
-    modulationSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     modulationSlider.setRange(1.0f, 10.f, 0.01f);
-    //modulationSlider.setValue(1.0f); UNNECESSARY WITH VALUE TREE STATE
+    modulationSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    modulationSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(modulationSlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "modValue", modulationSlider));
+    
+    modulationSlider.setLookAndFeel(&smallKnob);
     
     modulationLabel.setText("Depth", dontSendNotification);
     modulationLabel.attachToComponent(&modulationSlider, false);
+    modulationLabel.setFont(font);
+    modulationLabel.setColour(Label::textColourId, Colours::silver);
     modulationLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(modulationLabel);
     
     //MODSPEED SLIDER
-    //modSpeedSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
+    modSpeedSlider.setRange(0.1f, 1.0f, 0.01f);
     modSpeedSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    modSpeedSlider.setBounds(202.5, 30, 100, 100);
     modSpeedSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
-    modSpeedSlider.setRange(0.0f, 1.0f, 0.01f);
-    //modSpeedSlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
     addAndMakeVisible(modSpeedSlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "modSpeed", modSpeedSlider));
+    
+    modSpeedSlider.setLookAndFeel(&smallKnob);
     
     modSpeedLabel.setText("Rate", dontSendNotification);
     modSpeedLabel.attachToComponent(&modSpeedSlider, false);
+    modSpeedLabel.setFont(font);
+    modSpeedLabel.setColour(Label::textColourId, Colours::silver);
     modSpeedLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(modSpeedLabel);
     
     //WETDRY SLIDER
-    //wetDrySlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
-    wetDrySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    wetDrySlider.setBounds(302.5, 30, 100, 100);
-    wetDrySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     wetDrySlider.setRange(0.0f, 1.0f, 0.01f);
-    //wetDrySlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
+    wetDrySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    wetDrySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(wetDrySlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "wet", wetDrySlider));
+    
+    wetDrySlider.setLookAndFeel(&largeKnob);
     
     wetDryLabel.setText("Dry/Wet", dontSendNotification);
     wetDryLabel.attachToComponent(&wetDrySlider, false);
+    wetDryLabel.setFont(font);
+    wetDryLabel.setColour(Label::textColourId, Colours::silver);
     wetDryLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(wetDryLabel);
     
     //PREDELAY SLIDER
-    //predelaySlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
-    predelaySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    predelaySlider.setBounds(2.5, 175, 100, 100);
-    predelaySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     predelaySlider.setRange(0.0f, 200.0f, 0.1f);
-    //predelaySlider.setValue(0.0f); UNNECESSARY WITH VALUE TREE STATE
+    predelaySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    predelaySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(predelaySlider);
-    //sliderAttachments = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.state, "predelayMS", predelaySlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "predelayMS", predelaySlider));
+    
+    predelaySlider.setLookAndFeel(&smallKnob);
     
     predelayLabel.setText("Predelay", dontSendNotification);
     predelayLabel.attachToComponent(&predelaySlider, false);
+    predelayLabel.setFont(font);
+    predelayLabel.setColour(Label::textColourId, Colours::silver);
     predelayLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(predelayLabel);
     
     //DIFFUSION SLIDER
-    //diffusionSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
-    diffusionSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    diffusionSlider.setBounds(102.5, 175, 100, 100);
-    diffusionSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     diffusionSlider.setRange(0.2f, 0.8f, 0.01f);
-    //diffusionSlider.setValue(0.5f); UNNECESSARY WITH VALUE TREE STATE
+    diffusionSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    diffusionSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(diffusionSlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "diffusionValue", predelaySlider));
+    
+    diffusionSlider.setLookAndFeel(&smallKnob);
     
     diffusionLabel.setText("Diffusion", dontSendNotification);
     diffusionLabel.attachToComponent(&diffusionSlider, false);
+    diffusionLabel.setFont(font);
+    diffusionLabel.setColour(Label::textColourId, Colours::silver);
     diffusionLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(diffusionLabel);
     
     //LPF SLIDER
-    //lpfSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
-    lpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    lpfSlider.setBounds(202.5, 175, 100, 100);
-    lpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     lpfSlider.setRange(100.0f, 20000.0f, 1.0f);
-    //lpfSlider.setValue(10000.0f); UNNECESSARY WITH VALUE TREE STATE
+    lpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    lpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(lpfSlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueLow", lpfSlider));
+    
+    lpfSlider.setLookAndFeel(&smallKnob);
     
     lpfLabel.setText("LPF", dontSendNotification);
     lpfLabel.attachToComponent(&lpfSlider, false);
+    lpfLabel.setFont(font);
+    lpfLabel.setColour(Label::textColourId, Colours::silver);
     lpfLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(lpfLabel);
     
     //HPF SLIDER
-    //hpfSlider.addListener(this); UNNECESSARY WITH VALUE TREE STATE
-    hpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    hpfSlider.setBounds(302.5, 175, 100, 100);
-    hpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     hpfSlider.setRange(100.0f, 20000.0f, 1.0f);
-    //hpfSlider.setValue(1000.0f); UNNECESSARY WITH VALUE TREE STATE
+    hpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    hpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(hpfSlider);
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueHigh", hpfSlider));
+    
+    hpfSlider.setLookAndFeel(&smallKnob);
     
     hpfLabel.setText("HPF", dontSendNotification);
     hpfLabel.attachToComponent(&hpfSlider, false);
+    hpfLabel.setFont(font);
+    hpfLabel.setColour(Label::textColourId, Colours::silver);
     hpfLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(hpfLabel);
+    
+    //==============================================================================
+    // ATTACHMENTS
+    //==============================================================================
+    
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "timeValue", reverbTimeSlider));
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "modValue", modulationSlider));
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "modSpeed", modSpeedSlider));
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "wet", wetDrySlider));
+    
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "predelayMS", predelaySlider));
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "diffusionValue", predelaySlider));
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueLow", lpfSlider));
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueHigh", hpfSlider));
+    
+    setSize (400, 300);
+    setResizable(false, false);
     
 }
 
@@ -149,44 +186,27 @@ AlgoReverbAudioProcessorEditor::~AlgoReverbAudioProcessorEditor()
 //==============================================================================
 void AlgoReverbAudioProcessorEditor::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (Colours::black);
+    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 }
 
 void AlgoReverbAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    backgroundImageComponent.setBounds(0.f, 0.f, 400.f, 300.f);
+    
+    reverbTimeSlider.setBounds(2.5, 30, 100, 100);
+    modulationSlider.setBounds(102.5, 30, 100, 100);
+    modSpeedSlider.setBounds(202.5, 30, 100, 100);
+    wetDrySlider.setBounds(302.5, 30, 100, 100);
+    predelaySlider.setBounds(2.5, 175, 100, 100);
+    diffusionSlider.setBounds(102.5, 175, 100, 100);
+    lpfSlider.setBounds(202.5, 175, 100, 100);
+    hpfSlider.setBounds(302.5, 175, 100, 100);
 }
 
-/*void AlgoReverbAudioProcessorEditor::sliderValueChanged(Slider *slider){
-    if (slider == & predelaySlider){
-        processor.predelayMS = predelaySlider.getValue();
-    }
-    
-    if (slider == & wetDrySlider){
-        processor.wet = wetDrySlider.getValue();
-    }
-    
-    if (slider == & reverbTimeSlider){
-        processor.timeValue = reverbTimeSlider.getValue();
-    }
-    
-    if (slider == & modulationSlider){
-        processor.modValue = modulationSlider.getValue();
-    }
-    
-    if (slider == & diffusionSlider){
-        processor.diffusionValue = diffusionSlider.getValue();
-    }
-    
-    if (slider == & lpfSlider){
-        processor.freqValueLow = lpfSlider.getValue();
-    }
-    
-    if (slider == & hpfSlider){
-        processor.freqValueHigh = hpfSlider.getValue();
-    }
+void AlgoReverbAudioProcessorEditor::setFontParameters(Font* font) {
+    font->setTypefaceName("Avenir Next");
+    font->setTypefaceStyle("Demi Bold");
+    font->setHeight(20);
 }
-UNNECESSARY WITH VALUE TREE STATE*/
+
 
