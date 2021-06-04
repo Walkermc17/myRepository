@@ -30,11 +30,19 @@ public:
 
     void setFs(float Fs);
     
-    void setFeedbackGain(float feedbackGain );
-    
     void setSpeed(float speed);
     
+    void setFeedbackGain(float feedbackGain);
+    
     void setDepth(float depth);
+    
+    /*void setDelay(float delay){
+        fractionalDelay.setDelaySamples(delay);
+    };
+    
+    void setSpeed(float speed){
+        fractionalDelay.setSpeed(speed);
+    }*/
     
 private:
     
@@ -42,7 +50,7 @@ private:
     
     FractionalDelay fractionalDelay {240.f , 0.7f};
     
-    float feedbackGain = 0.5f;
+    float feedbackGain = .5f;
     
     float fb1[2] = {0.f};
     
@@ -50,7 +58,7 @@ private:
     
     float angleChange = speed * (1.f/Fs) * 2.f * M_PI;
     
-    float depth = 10.0f; // percentage of intensity, control amp of LFO
+    float depth = 10.f; // percentage of intensity, control amp of LFO
     
 };
 

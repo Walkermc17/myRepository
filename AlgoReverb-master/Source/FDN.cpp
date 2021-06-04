@@ -9,6 +9,15 @@
 #include <math.h>
 
 FDN::FDN(){
+    apf1.setFeedbackGain(0.3f);
+    apf1.setDepth(3.0f);
+    apf2.setFeedbackGain(0.3f);
+    apf2.setDepth(3.0f);
+    apf3.setFeedbackGain(0.3f);
+    apf3.setDepth(3.0f);
+    apf4.setFeedbackGain(0.3f);
+    apf4.setDepth(3.0f);
+    
 }
 
 // Destructor
@@ -29,12 +38,25 @@ float FDN::processSample(float x, int channel){
     float outDL3 = fractionalDelay3.processSample(inDL3 , channel);
     float outDL4 = fractionalDelay4.processSample(inDL4 , channel);
     
-    y = 0.35f * (outDL1 + outDL2 + outDL3 + outDL4);
+    y = 2.f * (outDL1 + outDL2 + outDL3 + outDL4);
     
     fb1[channel] = (-outDL2 + outDL3) * feedbackGain;
     fb2[channel] = (outDL1 + outDL4) * feedbackGain;
     fb3[channel] = (outDL1 + -outDL4) * feedbackGain;
     fb4[channel] = (-outDL2 + -outDL3) * feedbackGain;
+    
+    //All Pass Filter Implementation
+    fb1[channel] = apf1.processSample(fb1[channel], channel);
+    fb2[channel] = apf2.processSample(fb2[channel], channel);
+    fb3[channel] = apf3.processSample(fb3[channel], channel);
+    fb4[channel] = apf4.processSample(fb4[channel], channel);
+    
+    
+    //Low Pass Filter Implementation
+    fb1[channel] = lpf.processSample(fb1[channel], channel);
+    fb2[channel] = lpf.processSample(fb2[channel], channel);
+    fb3[channel] = lpf.processSample(fb3[channel], channel);
+    fb4[channel] = lpf.processSample(fb4[channel], channel);
         
     return y;
 }
@@ -43,6 +65,12 @@ void FDN::setFs(float Fs){
     this->Fs = Fs;
     fractionalDelay1.setFs(Fs);
     fractionalDelay2.setFs(Fs);
+    fractionalDelay3.setFs(Fs);
+    fractionalDelay4.setFs(Fs);
+    apf1.setFs(Fs);
+    apf2.setFs(Fs);
+    apf3.setFs(Fs);
+    apf4.setFs(Fs);
 }
 
 void FDN::setSpeed(float speed){

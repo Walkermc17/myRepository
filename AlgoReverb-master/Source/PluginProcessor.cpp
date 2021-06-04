@@ -174,14 +174,16 @@ void AlgoReverbAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     
     float timeValue = *state.getRawParameterValue("timeValue");
     fdn.setTime(timeValue);
+    
     float modValue = *state.getRawParameterValue("modValue");
     fdn.setDepth(modValue);
-    float modSpeed = *state.getRawParameterValue("modSpeed");
-    fdn.setSpeed(modSpeed);
+    
+    //float modSpeed = *state.getRawParameterValue("modSpeed");
+    //fdn.setSpeed(modSpeed);
     apf1.setDepth(modValue);
-    apf1.setSpeed(modSpeed);
+    //apf1.setSpeed(modSpeed);
     apf2.setDepth(modValue);
-    apf2.setSpeed(modSpeed);
+    //apf2.setSpeed(modSpeed);
     float diffusionValue = *state.getRawParameterValue("diffusionValue");
     apf1.setFeedbackGain(diffusionValue);
     apf2.setFeedbackGain(diffusionValue);
@@ -192,9 +194,12 @@ void AlgoReverbAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     
     float freqValueLow = *state.getRawParameterValue("freqValueLow");
     lowPassFilter.setFrequency(freqValueLow);
+    
     float freqValueHigh = *state.getRawParameterValue("freqValueHigh");
     highPassFilter.setFrequency(freqValueHigh);
+    
     float wet = *state.getRawParameterValue("wet");
+    
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         for (int n = 0 ; n < buffer.getNumSamples(); ++n){

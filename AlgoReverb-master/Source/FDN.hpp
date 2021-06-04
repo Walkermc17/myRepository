@@ -9,6 +9,7 @@
 #define FDN_hpp
 
 #include "FractionalDelay.hpp"
+#include "APF.hpp"
 using namespace std;
 
 class FDN {
@@ -52,6 +53,24 @@ private:
     float angleChange = speed * (1.f/Fs) * 2.f * M_PI;
     
     float depth = 10.0f; // percentage of intensity, control amp of LFO
+    
+    class simpleLPF{
+    public:
+        float processSample(float x, int channel){
+            float y = 0.5f*x + 0.5f*ff[channel];
+            ff[channel] = x;
+            return y;
+        };
+    private:
+        float ff[2] = {0};
+    };
+    
+    simpleLPF lpf;
+    
+    APF apf1 {163.f , .271f};
+    APF apf2 {271.f , .713f};
+    APF apf3 {349.f , .541f};
+    APF apf4 {491.f , .371f};
     
 };
 

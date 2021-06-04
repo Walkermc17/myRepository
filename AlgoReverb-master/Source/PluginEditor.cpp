@@ -42,6 +42,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //REVERB TIME SLIDER
     reverbTimeSlider.setRange(0.4f, 0.7f, 0.01f);
+    reverbTimeSlider.setValue(0.6f);
     reverbTimeSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     reverbTimeSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(reverbTimeSlider);
@@ -57,6 +58,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //MODULATION SLIDER
     modulationSlider.setRange(1.0f, 10.f, 0.01f);
+    modulationSlider.setValue(5.0f);
     modulationSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     modulationSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(modulationSlider);
@@ -72,6 +74,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //MODSPEED SLIDER
     modSpeedSlider.setRange(0.1f, 1.0f, 0.01f);
+    modSpeedSlider.setValue(.5f);
     modSpeedSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     modSpeedSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(modSpeedSlider);
@@ -87,6 +90,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //WETDRY SLIDER
     wetDrySlider.setRange(0.0f, 1.0f, 0.01f);
+    wetDrySlider.setValue(0.5f);
     wetDrySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     wetDrySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(wetDrySlider);
@@ -102,6 +106,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //PREDELAY SLIDER
     predelaySlider.setRange(0.0f, 200.0f, 0.1f);
+    predelaySlider.setValue(0.0f);
     predelaySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     predelaySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(predelaySlider);
@@ -117,6 +122,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //DIFFUSION SLIDER
     diffusionSlider.setRange(0.2f, 0.8f, 0.01f);
+    diffusionSlider.setValue(0.4f);
     diffusionSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     diffusionSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(diffusionSlider);
@@ -132,6 +138,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //LPF SLIDER
     lpfSlider.setRange(100.0f, 20000.0f, 1.0f);
+    lpfSlider.setValue(10000.f);
     lpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     lpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(lpfSlider);
@@ -147,6 +154,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     
     //HPF SLIDER
     hpfSlider.setRange(100.0f, 20000.0f, 1.0f);
+    hpfSlider.setValue(250.f);
     hpfSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     hpfSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
     addAndMakeVisible(hpfSlider);
@@ -170,7 +178,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "wet", wetDrySlider));
     
     sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "predelayMS", predelaySlider));
-    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "diffusionValue", predelaySlider));
+    sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "diffusionValue", diffusionSlider));
     sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueLow", lpfSlider));
     sliderAttachments.emplace_back(new AudioProcessorValueTreeState::SliderAttachment(processor.state, "freqValueHigh", hpfSlider));
     
