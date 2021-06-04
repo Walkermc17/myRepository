@@ -49,5 +49,5 @@ void APF::setSpeed(float speed){
 
 void APF::setDepth(float depth){
     this->depth = depth;
-    fractionalDelay.setDepth(depth); //Do I really need both of these?
+    fractionalDelay.setDepth(depth);
 }

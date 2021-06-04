@@ -41,7 +41,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     //==============================================================================
     
     //REVERB TIME SLIDER
-    reverbTimeSlider.setRange(0.4f, 0.7f, 0.01f);
+    reverbTimeSlider.setRange(0.4f, 5.0f, 0.01f);
     reverbTimeSlider.setValue(0.6f);
     reverbTimeSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     reverbTimeSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
@@ -57,7 +57,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     addAndMakeVisible(reverbTimeLabel);
     
     //MODULATION SLIDER
-    modulationSlider.setRange(1.0f, 10.f, 0.01f);
+    modulationSlider.setRange(0.0f, 10.f, 0.01f);
     modulationSlider.setValue(5.0f);
     modulationSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     modulationSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
@@ -89,7 +89,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     addAndMakeVisible(modSpeedLabel);
     
     //WETDRY SLIDER
-    wetDrySlider.setRange(0.0f, 1.0f, 0.01f);
+    wetDrySlider.setRange(0.0f, 100.0f, 0.01f);
     wetDrySlider.setValue(0.5f);
     wetDrySlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     wetDrySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);
@@ -121,7 +121,7 @@ AlgoReverbAudioProcessorEditor::AlgoReverbAudioProcessorEditor (AlgoReverbAudioP
     addAndMakeVisible(predelayLabel);
     
     //DIFFUSION SLIDER
-    diffusionSlider.setRange(0.2f, 0.8f, 0.01f);
+    diffusionSlider.setRange(0.0f, 1.0f, 0.01f);
     diffusionSlider.setValue(0.4f);
     diffusionSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     diffusionSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 30);

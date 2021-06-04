@@ -38,25 +38,24 @@ float FDN::processSample(float x, int channel){
     float outDL3 = fractionalDelay3.processSample(inDL3 , channel);
     float outDL4 = fractionalDelay4.processSample(inDL4 , channel);
     
-    y = 2.f * (outDL1 + outDL2 + outDL3 + outDL4);
+    y = .35f * (outDL1 + outDL2 + outDL3 + outDL4);
     
     fb1[channel] = (-outDL2 + outDL3) * feedbackGain;
     fb2[channel] = (outDL1 + outDL4) * feedbackGain;
     fb3[channel] = (outDL1 + -outDL4) * feedbackGain;
     fb4[channel] = (-outDL2 + -outDL3) * feedbackGain;
     
-    //All Pass Filter Implementation
-    fb1[channel] = apf1.processSample(fb1[channel], channel);
-    fb2[channel] = apf2.processSample(fb2[channel], channel);
-    fb3[channel] = apf3.processSample(fb3[channel], channel);
-    fb4[channel] = apf4.processSample(fb4[channel], channel);
-    
-    
     //Low Pass Filter Implementation
-    fb1[channel] = lpf.processSample(fb1[channel], channel);
-    fb2[channel] = lpf.processSample(fb2[channel], channel);
-    fb3[channel] = lpf.processSample(fb3[channel], channel);
-    fb4[channel] = lpf.processSample(fb4[channel], channel);
+    //fb1[channel] = lpf.processSample(fb1[channel], channel);
+    //fb2[channel] = lpf.processSample(fb2[channel], channel);
+    //fb3[channel] = lpf.processSample(fb3[channel], channel);
+    //fb4[channel] = lpf.processSample(fb4[channel], channel);
+    
+    //All Pass Filter Implementation
+    //fb1[channel] = apf1.processSample(fb1[channel], channel);
+    //fb2[channel] = apf2.processSample(fb2[channel], channel);
+    //fb3[channel] = apf3.processSample(fb3[channel], channel);
+    //fb4[channel] = apf4.processSample(fb4[channel], channel);
         
     return y;
 }

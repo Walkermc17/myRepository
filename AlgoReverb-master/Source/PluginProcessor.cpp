@@ -34,12 +34,12 @@ AudioProcessorValueTreeState::ParameterLayout AlgoReverbAudioProcessor::createPa
     std::vector<std::unique_ptr<RangedAudioParameter>> params;
     
     //predelayMS is the name of the parameter in the markdown file
-    params.push_back(std::make_unique<AudioParameterFloat> ("timeValue","Time", 0.4f, 0.7f, 0.01f));
-    params.push_back(std::make_unique<AudioParameterFloat> ("modValue","Depth", 1.0f, 10.f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("timeValue","Time", 0.4f, 5.0f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("modValue","Depth", 0.0f, 10.f, 0.01f));
     params.push_back(std::make_unique<AudioParameterFloat> ("modSpeed","Rate", 0.1f, 1.0f, 0.01f));
-    params.push_back(std::make_unique<AudioParameterFloat> ("wet","Dry/Wet", 0.0f, 1.0f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("wet","Dry/Wet", 0.0f, 100.0f, 0.01f));
     params.push_back(std::make_unique<AudioParameterFloat> ("predelayMS","Pre-delay", 0.0f, 200.0f, 0.1f));
-    params.push_back(std::make_unique<AudioParameterFloat> ("diffusionValue","Diffusion", 0.2f, 0.8f, 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat> ("diffusionValue","Diffusion", 0.0f, 1.0f, 0.01f));
     params.push_back(std::make_unique<AudioParameterFloat> ("freqValueLow","LPF", 100.0f, 20000.0f, 1.0f));
     params.push_back(std::make_unique<AudioParameterFloat> ("freqValueHigh","HPF", 100.0f, 20000.0f, 1.0f));
     
@@ -198,7 +198,8 @@ void AlgoReverbAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     float freqValueHigh = *state.getRawParameterValue("freqValueHigh");
     highPassFilter.setFrequency(freqValueHigh);
     
-    float wet = *state.getRawParameterValue("wet");
+    float wetPercent = *state.getRawParameterValue("wet");
+    float wet = wetPercent / 100.f;
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
